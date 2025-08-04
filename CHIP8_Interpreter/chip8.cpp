@@ -84,13 +84,13 @@ inline bool OP_clear_screen(){
             display[i][j] = 0;
         }
     }
-    return 0;
+    return true;
 }
 
 inline bool OP_jump( Dubw nnn ){
     // Unconditional jump to a location in RAM
     PC = nnn;
-    return 0;
+    return true;
 }
 
 inline bool OP_call( Dubw nnn ){
@@ -99,41 +99,41 @@ inline bool OP_call( Dubw nnn ){
        first should push the current PC to the stack, so the subroutine can return later. */
     S.push( PC );
     OP_jump( nnn );
-    return 0;
+    return true;
 }
 
 inline bool OP_return(){
     PC = S.top();
     S.pop();
-    return 0;
+    return true;
 }
 
 inline bool OP_skip_VX_equal_value( Byte x, Word nn ){
     // skip one instruction if the value in VX is equal to NN
     if( UT_VX_equal( x, nn ) ){  UT_incr_PC();  }
-    return 0;
+    return true;
 }
 
 inline bool OP_skip_VX_not_equal_value( Byte x, Word nn ){
     // skip one instruction if the value in VX is equal to NN
     if( !UT_VX_equal( x, nn ) ){  UT_incr_PC();  }
-    return 0;
+    return true;
 }
 
 inline bool OP_skip_VX_VY_equal( Byte x, Byte y ){
     if( UT_VX_VY_equal( x, y ) ){  UT_incr_PC();  }
-    return 0;
+    return true;
 }
 
 inline bool OP_skip_VX_VY_not_equal( Byte x, Byte y ){
     if( !UT_VX_VY_equal( x, y ) ){  UT_incr_PC();  }
-    return 0;
+    return true;
 }
 
 inline bool OP_set_VX( Byte x, Word nn ){
     // Set the contents of register VX equal to `NN`
     VX[ x ] = nn;
-    return 0;
+    return true;
 }
 
 inline bool OP_add_to_VX( Byte x, Word nn ){
@@ -145,7 +145,7 @@ inline bool OP_add_to_VX( Byte x, Word nn ){
 
 inline bool OP_set_VX_to_VY( Byte x, Byte y ){
     VX[ x ] = VX[ y ];
-    return 0;
+    return true;
 }
 
 ///// Engine ////////////////////////////////////
